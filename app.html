@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>품질팀 업무 포털</title>
+<meta name="theme-color" content="#fafaf7">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+html,body{margin:0;height:100%;background:#fafaf7;overflow:hidden}
+#f{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
+.fb{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2;
+  background:#111;color:#fff;font:13px/1.4 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  padding:9px 14px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);display:flex;gap:12px;align-items:center}
+.fb a{color:#9cc3ff;font-weight:700;text-decoration:none}.fb button{border:0;background:none;color:#aaa;font-size:16px;cursor:pointer;padding:0 2px}
+.fb[hidden]{display:none}
+</style>
+</head>
+<body>
+<iframe id="f" title="품질팀 업무 포털" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+<div class="fb" id="fb" hidden><span>화면이 안 보이면</span><a id="fbA" href="#" target="_top">새 창에서 열기</a><button type="button" id="fbX" aria-label="닫기">✕</button></div>
+<script>
+(function () {
+  // Portal inside a frame: Google's "Apps Script 사용자가 만들었습니다" banner is only drawn when /exec is the top page.
+  // ?dev=1 → test (HEAD) URL. If the frame cannot sign in (some browsers block Google cookies in frames), use the link.
+  var EXEC = 'https://script.google.com/macros/s/AKfycbyPWvlCkF-d071K5rKVgRgGXE6H9hVm8MQ9t6xnfvL8aoxyBMFL1ujO6A9oKnUz7ZM8/exec';
+  var DEV = 'https://script.google.com/macros/s/AKfycbyVWZ468hcqI6FZaMGycJ_8oRh8x7eLy339ssBwRZSg/dev';
+  var q = new URLSearchParams(location.search), url = q.get('dev') === '1' ? DEV : EXEC;
+  var f = document.getElementById('f'), fb = document.getElementById('fb');
+  document.getElementById('fbA').href = url;
+  document.getElementById('fbX').onclick = function () { fb.hidden = true; };
+  f.src = url + (location.hash || '');
+  setTimeout(function () { fb.hidden = false; setTimeout(function () { fb.hidden = true; }, 12000); }, 9000);
+})();
+</script>
+</body>
+</html>
